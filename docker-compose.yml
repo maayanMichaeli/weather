@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  project_weather:
+    restart: always
+    build: ./project_weather
+    networks:
+      - weather-network
+
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
+    networks:
+      - host
+      - weather-network
+networks:
+  weather-network: {}
+  host: {}
