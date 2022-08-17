@@ -9,13 +9,13 @@ pipeline {
 
         stage('build') {
             steps {
-                sh 'docker build -t 44.207.98.58:80/docker_deploy/maayanmi/weather .'
+                sh 'docker build -t 44.207.98.58/docker_deploy/weather .'
             }
         }
 
         stage('run') {
             steps {
-                sh 'docker run --name weatherapp -dit -p 80:5000 44.207.98.58:80/docker_deploy/maayanmi/weather'
+                sh 'docker run --name weatherapp -dit -p 80:5000 44.207.98.58/docker_deploy/weather'
             }
         }
         
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 rtDockerPush(
                 serverId: 'artifactoryID',
-                image: '44.207.98.58:80/docker_deploy/maayanmi/weather',
+                image: '44.207.98.58/docker_deploy/weather',
                 targetRepo: 'docker-deploy'
             )
                 echo 'success'
