@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages {
+         stage('clean'){
+            steps{
+                sh 'docker kill weatherapp && docker rm weatherapp'
+            }
+
         stage('start'){
             steps{
                 echo 'pulled from git...'
@@ -9,7 +14,7 @@ pipeline {
 
         stage('build') {
             steps {
-                sh 'docker build -t maayanmi/myrepo .'
+                sh 'docker build -t docker_deploy.44.207.98.58/maayanmi/myrepo .'
             }
         }
 
@@ -26,10 +31,6 @@ pipeline {
             }
         }
 
-        stage('clean'){
-            steps{
-                sh 'docker kill weatherapp && docker rm weatherapp'
-            }
         }
     }
 }
