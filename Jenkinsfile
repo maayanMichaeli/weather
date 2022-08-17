@@ -18,11 +18,7 @@ pipeline {
                 sh 'docker run --name weatherapp -dit -p 80:5000 maayanmi/myrepo'
             }
         }
-        stage('test') {
-            steps {
-                sh 'docker exec weatherapp python3 testing.py'
-            }
-        }
+        
         stage('delivery') {
             steps {
                 sh 'sudo docker push docker_deploy.44.207.98.58/maayanmi/myrepo'
