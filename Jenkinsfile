@@ -15,13 +15,13 @@ pipeline {
 
         stage('build') {
             steps {
-                sh 'docker build -t docker_deploy.44.207.98.58/maayanmi/weather .'
+                sh 'docker build -t docker_deploy/maayanmi/weather .'
             }
         }
 
         stage('run') {
             steps {
-                sh 'docker run --name weatherapp -dit -p 80:5000 maayanmi/weather'
+                sh 'docker run --name weatherapp -dit -p 80:5000 docker_deploy/maayanmi/weather'
             }
         }
         
