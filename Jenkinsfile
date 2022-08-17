@@ -15,7 +15,7 @@ pipeline {
 
         stage('build') {
             steps {
-                sh 'docker build -t maayanmi/myrepo .'
+                sh 'docker build -t docker_deploy.44.207.98.58/maayanmi/myrepo .'
             }
         }
 
