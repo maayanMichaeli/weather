@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    environment {
-        dockerhub=credentials('5fe6930e-aa21-4e54-807e-311656614d20')
-    }
     stages {
         stage('start'){
             steps{
@@ -30,10 +27,9 @@ pipeline {
                 sh 'docker exec weatherapp python3 testing.py'
             }
         }
-        stage('deploy') {
+        stage('delivery') {
             steps {
-                sh 'echo $dockerhub_PSW | sudo docker login -u $dockerhub_USR --password-stdin'
-                sh 'sudo docker push maayanmi/myrepo'
+                sh 'sudo docker push docker_deploy.44.207.98.58/maayanmi/myrepo'
                 echo 'success'
             }
         }
