@@ -23,7 +23,7 @@ pipeline {
             steps {
                 rtDockerPush(
                 serverId: 'artifactoryID',
-                image: '44.207.98.58/docker_deploy/weather',
+                image: '44.207.98.58/docker_deploy/weather:latest',
                 targetRepo: 'docker-deploy'
             )
                 echo 'success'
