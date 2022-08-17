@@ -6,11 +6,7 @@ pipeline {
                 echo 'pulled from git...'
             }
         }
-        stage('clean'){
-            steps{
-                sh 'docker kill weatherapp && docker rm weatherapp'
-            }
-        }
+
         stage('build') {
             steps {
                 sh 'docker build -t maayanmi/myrepo .'
@@ -31,6 +27,12 @@ pipeline {
             steps {
                 sh 'sudo docker push docker_deploy.44.207.98.58/maayanmi/myrepo'
                 echo 'success'
+            }
+        }
+
+        stage('clean'){
+            steps{
+                sh 'docker kill weatherapp && docker rm weatherapp'
             }
         }
     }
