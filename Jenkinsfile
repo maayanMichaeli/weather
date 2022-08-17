@@ -15,19 +15,24 @@ pipeline {
 
         stage('build') {
             steps {
-                sh 'docker build -t docker_deploy.44.207.98.58/maayanmi/myrepo .'
+                sh 'docker build -t docker_deploy.44.207.98.58/maayanmi/weather .'
             }
         }
 
         stage('run') {
             steps {
-                sh 'docker run --name weatherapp -dit -p 80:5000 maayanmi/myrepo'
+                sh 'docker run --name weatherapp -dit -p 80:5000 maayanmi/weather'
             }
         }
         
         stage('delivery') {
             steps {
-                sh 'sudo docker push docker_deploy.44.207.98.58/maayanmi/myrepo'
+                rtDockerPush(
+                serverId: 'Artifactory-1',
+                image: 'docker_deploy/maayanmi/weather',
+                host: 44.207.98.58,
+                targetRepo: 'docker-deploy'
+            )
                 echo 'success'
             }
         }
