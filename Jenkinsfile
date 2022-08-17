@@ -34,7 +34,7 @@ pipeline {
             steps {
                 kubernetesDeploy(kubeconfigId: 'kubeconfig',            
 
-                 configs: './deployment.yaml',
+                 configs: 'deployment.yml',
                  enableConfigSubstitution: true,
 
                  dockerCredentials: [
