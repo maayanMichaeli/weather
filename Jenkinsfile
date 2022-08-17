@@ -22,7 +22,7 @@ pipeline {
         stage('delivery') {
             steps {
                 rtDockerPush(
-                serverId: 'Artifactory-1',
+                serverId: 'artifactoryID',
                 image: 'docker_deploy/maayanmi/weather',
                 host: '44.207.98.58',
                 targetRepo: 'docker-deploy'
