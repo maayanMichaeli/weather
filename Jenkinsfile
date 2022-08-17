@@ -30,7 +30,7 @@ pipeline {
                 rtDockerPush(
                 serverId: 'Artifactory-1',
                 image: 'docker_deploy/maayanmi/weather',
-                host: 44.207.98.58,
+                host: '44.207.98.58',
                 targetRepo: 'docker-deploy'
             )
                 echo 'success'
