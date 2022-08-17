@@ -30,5 +30,19 @@ pipeline {
             }
         }
 
+        stage('deployment') {
+            steps {
+                kubernetesDeploy(kubeconfigId: 'kubeconfig',            
+
+                 configs: './deployment.yaml',
+                 enableConfigSubstitution: true,
+
+                 dockerCredentials: [
+                        [credentialsId: 'artifactory', url: 'http://44.207.98.58'],
+                 ]
+)
+            }
+        }
+
     }
 }
