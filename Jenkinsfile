@@ -1,12 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('clean'){
-            steps{
-                sh 'docker kill weatherapp && docker rm weatherapp'
-            }
-        }
-        
         stage('start'){
             steps{
                 echo 'pulled from git...'
