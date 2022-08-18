@@ -4,83 +4,48 @@ kind: Service
 
 metadata:
 
-  name: solitaire
+  name: weather-app
 
   labels:
 
-    run: solitaire
+    run: weather-app
 
 spec:
+
+  type: NodePort
 
   ports:
 
   - port: 80
 
-    targetPort: 80
+    targetPort: 5000
+
+    nodePort: 30000
+
+    protocol: TCP
+
   selector:
 
-    run: solitaire
+    run: weather-app
 
 ---
 
 apiVersion: apps/v1
-
 kind: Deployment
-
 metadata:
-
-  name: solitaire
-
+  name: weather-app
 spec:
-
+  replicas: 2
   selector:
-
     matchLabels:
-
-      run: solitaire
-
-  replicas: 1
-
+      run: weather-app
   template:
-
     metadata:
-
       labels:
-
-        run: solitaire
-
+        run: weather-app
     spec:
-
       containers:
-
-      - name: solitaire
-
-        image: kevintvan/solitaire:nginx
+      - name: weather
+        image: REPLACE
         ports:
-
-        - containerPort: 80
-
-        resources:
-
-          limits:
-
-            cpu: 500m
-
-          requests:
-
-            cpu: 200m
-
----
-
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: solitaire
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: solitaire
-  minReplicas: 1
-  maxReplicas: 10
-  targetCPUUtilizationPercentage: 50
+        - containerPort: 5000

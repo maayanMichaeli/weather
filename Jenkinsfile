@@ -1,47 +1,50 @@
 pipeline {
-    agent any
+    environment {
+        dockerImage = 'maayanmi/weather'
+    }
+
+    agent { label 'docker-builds' }
     stages {
-        stage('clean'){
+
+        stage('Building our image') {
             steps{
-                sh 'docker rm -f weatherapp'
+                script {
+                    sh "sudo docker build . -f weatherDockerfile -t $dockerImage:$BUILD_ID"
+                }
             }
         }
-        stage('start'){
+
+        stage('Delivery') {
             steps{
-                echo 'pulled from git...'
+                script {
+                    sh "docker push $dockerImage:$BUILD_ID"
+                }
             }
         }
 
-        stage('build') {
-            steps {
-                sh 'docker build -t 44.207.98.58/docker_deploy/weather .'
+        stage('clean up'){
+            steps{
+                script{
+                    sh "docker rmi $dockerImage:$BUILD_ID"
+                }
             }
         }
 
-        stage('run') {
-            steps {
-                sh 'docker run --name weatherapp -dit -p 80:5000 44.207.98.58/docker_deploy/weather'
-            }
-        }
-        
-        stage('delivery') {
-            steps {
-                rtDockerPush(
-                serverId: 'artifactoryID',
-                image: '44.207.98.58/docker_deploy/weather:latest',
-                targetRepo: 'docker-deploy'
-            )
-                echo 'success'
+        stage('pre deploy deployment'){
+            steps{
+                sh 'sed -i "s,REPLACE,$dockerImage:$BUILD_ID," weather-deploy.yml'
+                stash includes: 'weather-deploy.yml', name: 'DEPLOY'
             }
         }
 
-        stage('deployment') {
-            steps {
-               
-                echo "hi"               
-
+        stage('deploy deployment') {
+            agent { label 'k8s' }
+            steps{
+                unstash 'DEPLOY'
+                script {
+                    sh "kubectl apply -f weather-deploy.yml"
+                }
             }
         }
-
     }
 }
