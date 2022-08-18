@@ -2,7 +2,9 @@ pipeline {
     agent any
     stages {
         stage('clean'){
-            sh 'docker rm -f weatherapp'
+            steps{
+                sh 'docker rm -f weatherapp'
+            }
         }
         stage('start'){
             steps{
