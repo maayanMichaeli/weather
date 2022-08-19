@@ -10,7 +10,7 @@ pipeline {
         stage('Building our image') {
             steps{
                 script {
-                    sh 'echo $dockerhub_PSW | sudo docker login -u $dockerhub_USR --password-stdin'
+                    sh 'echo $dockerhub_PSW | sudo docker login -u $dockerhub_USR --password-stdin docker.io'
                     sh "sudo docker build -t $dockerImage:$BUILD_ID ." 
                 }
             }
@@ -38,7 +38,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('deploy deployment') {
             agent { label 'k8smaster' }
             steps{
