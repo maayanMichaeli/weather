@@ -1,7 +1,7 @@
 pipeline {
     environment {
         dockerImage = 'maayanmi/weather'
-        dockerhub=credentials('dckr_pat_j420nMPpk_HarddaASm86gNZzjc')
+        //dockerhub=credentials('dckr_pat_j420nMPpk_HarddaASm86gNZzjc')
     }
 
     agent { label 'docker-builds' }
@@ -18,7 +18,8 @@ pipeline {
         stage('Delivery') {
             steps{
                 script {
-                    sh 'echo $dockerhub_PSW | sudo docker login -u $dockerhub_USR --password-stdin docker.io'                    
+                    //sh 'echo $dockerhub_PSW | sudo docker login -u $dockerhub_USR --password-stdin docker.io' 
+                    sh 'docker login -u maayanmi -p BdZcFBpNhKnABQ2'                   
                     sh "docker push $dockerImage:$BUILD_ID"
                 }
             }
