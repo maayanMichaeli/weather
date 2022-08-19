@@ -9,7 +9,7 @@ pipeline {
         stage('Building our image') {
             steps{
                 script {
-                    sh "sudo docker build . -f weatherDockerfile -t $dockerImage:$BUILD_ID"
+                    sh "sudo docker build . -t $dockerImage:$BUILD_ID"
                 }
             }
         }
