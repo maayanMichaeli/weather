@@ -45,6 +45,7 @@ pipeline {
             steps{
                 unstash 'DEPLOY'
                 script {
+                    sh "sudo su"
                     sh "kubectl apply -f deployment.yml"
                 }
             }
