@@ -38,7 +38,7 @@ pipeline {
         }
 
         stage('deploy deployment') {
-            agent { label 'k8s' }
+            agent { label 'k8smaster' }
             steps{
                 unstash 'DEPLOY'
                 script {
