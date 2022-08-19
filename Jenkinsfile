@@ -45,7 +45,7 @@ pipeline {
             steps{
                 unstash 'DEPLOY'
                 script {
-                    sh "kubectl apply -f deployment.yml"
+                    sh "sudo kubectl apply -f deployment.yml"
                 }
             }
         }
