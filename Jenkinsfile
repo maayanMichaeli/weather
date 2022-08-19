@@ -1,7 +1,7 @@
 pipeline {
     environment {
         dockerImage = 'maayanmi/weather'
-        dockerhub=credentials('5fe6930e-aa21-4e54-807e-311656614d20')
+        dockerhub=credentials('dckr_pat_j420nMPpk_HarddaASm86gNZzjc')
     }
 
     agent { label 'docker-builds' }
