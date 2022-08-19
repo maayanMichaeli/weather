@@ -27,8 +27,8 @@ pipeline {
 
         stage('pre deploy deployment'){
             steps{
-                sh 'sed -i "s,REPLACE,$dockerImage:$BUILD_ID," weather-deploy.yml'
-                stash includes: 'weather-deploy.yml', name: 'DEPLOY'
+                sh 'sed -i "s,REPLACE,$dockerImage:$BUILD_ID," deployment.yml'
+                stash includes: 'deployment.yml', name: 'DEPLOY'
             }
         }
 
@@ -45,7 +45,7 @@ pipeline {
             steps{
                 unstash 'DEPLOY'
                 script {
-                    sh "kubectl apply -f weather-deploy.yml"
+                    sh "kubectl apply -f deployment.yml"
                 }
             }
         }
