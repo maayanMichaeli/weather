@@ -7,10 +7,19 @@ pipeline {
     agent { label 'docker-builds' }
     stages {
 
+        stage('clean up'){
+            steps{
+                script{
+                    sh "docker rm -f $dockerImage:$BUILD_ID"
+                }
+            }
+        }
+
         stage('Building our image') {
             steps{
                 script {
-                    sh "sudo docker build . -t $dockerImage:$BUILD_ID"
+                    sh 'echo $dockerhub_PSW | sudo docker login -u $dockerhub_USR --password-stdin'
+                    sh "sudo docker build -t $dockerImage:$BUILD_ID" .
                 }
             }
         }
@@ -18,16 +27,7 @@ pipeline {
         stage('Delivery') {
             steps{
                 script {
-                    sh 'echo $dockerhub_PSW | sudo docker login -u $dockerhub_USR --password-stdin'
                     sh "docker push $dockerImage:$BUILD_ID"
-                }
-            }
-        }
-
-        stage('clean up'){
-            steps{
-                script{
-                    sh "docker rmi $dockerImage:$BUILD_ID"
                 }
             }
         }
