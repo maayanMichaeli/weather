@@ -7,14 +7,6 @@ pipeline {
     agent { label 'docker-builds' }
     stages {
 
-        stage('clean up'){
-            steps{
-                script{
-                    sh "docker rm -f $dockerImage:$BUILD_ID"
-                }
-            }
-        }
-
         stage('Building our image') {
             steps{
                 script {
@@ -39,6 +31,14 @@ pipeline {
             }
         }
 
+        stage('clean up'){
+            steps{
+                script{
+                    sh "docker rm -f $dockerImage:$BUILD_ID"
+                }
+            }
+        }
+        
         stage('deploy deployment') {
             agent { label 'k8smaster' }
             steps{
