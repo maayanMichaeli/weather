@@ -34,7 +34,7 @@ pipeline {
         stage('clean up'){
             steps{
                 script{
-                    sh "docker rm -f $dockerImage:$BUILD_ID"
+                    sh "docker rmi -f $dockerImage:$BUILD_ID"
                 }
             }
         }
