@@ -1,6 +1,7 @@
 pipeline {
     environment {
         dockerImage = 'maayanmi/weather'
+        KUBECONFIG='/home/ubuntu/admin.conf'
         //dockerhub=credentials('dckr_pat_j420nMPpk_HarddaASm86gNZzjc')
     }
 
