@@ -1,29 +1,35 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: efs-sc
+provisioner: efs.csi.aws.com
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: host-pv
+  name: efs-pv
 spec:
-  capacity: 
-    storage: 1Gi
+  capacity:
+    storage: 5Gi
   volumeMode: Filesystem
-  storageClassName: standard
   accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: /data
-    type: DirectoryOrCreate
+    - ReadWriteMany
+  storageClassName: efs-sc
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: fs-09511719fa8aea7e6
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: host-pvc
+  name: efs-pvc
 spec:
-  volumeName: host-pv
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
+  storageClassName: efs-sc
   resources:
     requests:
-      storage: 1Gi
+      storage: 5Gi
 ---
 apiVersion: v1
 kind: Service
@@ -57,13 +63,13 @@ spec:
     spec:
       containers:
       - name: weather
-        image: maayanmi/weather:2.0.3
+        image: maayanmi/weather:2.0.25
         ports:
         - containerPort: 5000
         volumeMounts:
-          - mountPath: /app/history
-            name: history-volume
+          - name: efs-vol
+            mountPath: /data/history
       volumes:
-        - name: history-volume
-          persistentVolumeClaim:
-            claimName: host-pvc
+        - name: efs-vol
+          persistentVolumeClaim: 
+            claimName: efs-pvc

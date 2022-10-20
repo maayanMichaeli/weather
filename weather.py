@@ -38,7 +38,8 @@ def seven_days_forecast(city):
         day['weekday'] = datetime.strptime(day['datetime'], '%Y-%m-%d').strftime('%A')
         day['datetime'] = "/".join(day['datetime'].split("-")[::-1])
     fdict = {'status': status, 'res_addr': res_addr, 'curr_cond': curr_cond, 'days': days_list}
-
+    with open("./history/searchHistory.txt","a+") as file:
+        file.write(city+'\n')
     return fdict
 
 
